@@ -58,7 +58,13 @@ class MyPageActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
+        val sharedPreferences2 = getSharedPreferences(sharedPreferencesKey2, Context.MODE_PRIVATE)
+        val editor2 = sharedPreferences2.edit()
+
         editor.remove(viewModel.getUserId().value)
         editor.apply()
+
+        editor2.remove(viewModel.getUserId().value)
+        editor2.apply()
     }
 }
