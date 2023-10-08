@@ -8,9 +8,9 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.portfoliochildemotionpreventappall.appViewModel.AppViewModel
-import com.example.portfoliochildemotionpreventappall.databinding.ActivityMypageBinding
+import com.example.portfoliochildemotionpreventappall.databinding.ActivityAllMypageBinding
 
-class MyPageActivity : AppCompatActivity() {
+class AllMyPageActivity : AppCompatActivity() {
     private lateinit var viewModel: AppViewModel
     private val sharedPreferencesKey = "chat_history"
     private val sharedPreferencesKey2 = "expert_history"
@@ -18,15 +18,15 @@ class MyPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityMypageBinding.inflate(layoutInflater)
+        val binding = ActivityAllMypageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val actionBar: ActionBar? = supportActionBar
 
         actionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        actionBar?.setCustomView(R.layout.actionbar_mypage)
+        actionBar?.setCustomView(R.layout.actionbar_all)
 
-        val actionBarTitle = actionBar?.customView?.findViewById<TextView>(R.id.actionBarMyPage)
+        val actionBarTitle = actionBar?.customView?.findViewById<TextView>(R.id.actionBarAll)
         actionBarTitle?.text = "마이 페이지"
 
         actionBar?.setDisplayHomeAsUpEnabled(true)
@@ -50,7 +50,7 @@ class MyPageActivity : AppCompatActivity() {
     }
 
     fun onLogoutButtonClicked(){
-        val intent = Intent(this, LoginActivity::class.java)
+        val intent = Intent(this, AllLoginActivity::class.java)
         startActivity(intent)
     }
 

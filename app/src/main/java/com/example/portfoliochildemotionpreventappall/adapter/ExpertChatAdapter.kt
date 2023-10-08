@@ -18,7 +18,7 @@ class ExpertChatAdapter(private val expertChatData: List<ExpertChatDataPair>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_expertchat, parent, false)
+            .inflate(R.layout.item_child_expertchat, parent, false)
         return MessageViewHolder(itemView)
     }
 

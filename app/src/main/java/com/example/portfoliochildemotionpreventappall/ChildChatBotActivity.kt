@@ -19,19 +19,19 @@ import com.example.portfoliochildemotionpreventappall.appViewModel.AppViewModel
 import com.example.portfoliochildemotionpreventappall.chatbot.ChatBotApi
 import com.example.portfoliochildemotionpreventappall.chatbot.ChatBotData
 import com.example.portfoliochildemotionpreventappall.chatbot.ChatBotDataPair
-import com.example.portfoliochildemotionpreventappall.databinding.ActivityChatbotBinding
+import com.example.portfoliochildemotionpreventappall.databinding.ActivityChildChatbotBinding
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
 
-class ChatBotActivity : AppCompatActivity() {
+class ChildChatBotActivity : AppCompatActivity() {
     private lateinit var input: String
     private lateinit var id: String
 
     private lateinit var adapter: ChatBotAdapter
     private val messages = mutableListOf<ChatBotDataPair>()
-    private lateinit var binding: ActivityChatbotBinding
+    private lateinit var binding: ActivityChildChatbotBinding
 
     private lateinit var viewModel: AppViewModel
 
@@ -40,7 +40,7 @@ class ChatBotActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityChatbotBinding.inflate(layoutInflater)
+        binding = ActivityChildChatbotBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         viewModel = AppViewModel.getInstance()
@@ -71,9 +71,9 @@ class ChatBotActivity : AppCompatActivity() {
         val actionBar: ActionBar? = supportActionBar
 
         actionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        actionBar?.setCustomView(R.layout.actionbar_chatbot)
+        actionBar?.setCustomView(R.layout.actionbar_all)
 
-        val actionBarTitle = actionBar?.customView?.findViewById<TextView>(R.id.actionBarChatBot)
+        val actionBarTitle = actionBar?.customView?.findViewById<TextView>(R.id.actionBarAll)
         actionBarTitle?.text = "AI 챗봇"
 
         actionBar?.setDisplayHomeAsUpEnabled(true)
@@ -89,7 +89,7 @@ class ChatBotActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.myPage_btn -> {
-                val intent = Intent(this, MyPageActivity::class.java)
+                val intent = Intent(this, AllMyPageActivity::class.java)
                 startActivity(intent)
                 return true
             }

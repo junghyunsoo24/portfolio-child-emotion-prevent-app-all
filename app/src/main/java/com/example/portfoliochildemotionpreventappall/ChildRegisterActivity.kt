@@ -11,13 +11,13 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.portfoliochildemotionpreventappall.databinding.ActivityRegisterBinding
+import com.example.portfoliochildemotionpreventappall.databinding.ActivityChildRegisterBinding
 import com.example.portfoliochildemotionpreventappall.register.RegisterApi
 import com.example.portfoliochildemotionpreventappall.register.RegisterData
 
 import kotlinx.coroutines.launch
 
-class RegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class ChildRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var id: String
     private lateinit var pw: String
     private lateinit var name: String
@@ -31,16 +31,16 @@ class RegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityRegisterBinding.inflate(layoutInflater)
+        val binding = ActivityChildRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val actionBar: ActionBar? = supportActionBar
 
         actionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        actionBar?.setCustomView(R.layout.actionbar_register)
+        actionBar?.setCustomView(R.layout.actionbar_all)
 
-        val actionBarTitle = actionBar?.customView?.findViewById<TextView>(R.id.actionBarRegister)
-        actionBarTitle?.text = "회원 가입"
+        val actionBarTitle = actionBar?.customView?.findViewById<TextView>(R.id.actionBarAll)
+        actionBarTitle?.text = "아동 회원 가입"
 
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -80,7 +80,7 @@ class RegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     }
 
     fun onRegistButtonClicked() {
-        val intent = Intent(this, LoginActivity::class.java)
+        val intent = Intent(this, AllLoginActivity::class.java)
         startActivity(intent)
     }
 

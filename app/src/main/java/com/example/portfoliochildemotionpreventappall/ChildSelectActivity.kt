@@ -7,9 +7,9 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.portfoliochildemotionpreventappall.appViewModel.AppViewModel
-import com.example.portfoliochildemotionpreventappall.databinding.ActivitySelectBinding
+import com.example.portfoliochildemotionpreventappall.databinding.ActivityChildSelectBinding
 
-class SelectActivity : AppCompatActivity() {
+class ChildSelectActivity : AppCompatActivity() {
     private lateinit var viewModel: AppViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +19,7 @@ class SelectActivity : AppCompatActivity() {
             actionBar.setDisplayHomeAsUpEnabled(true)
         }
 
-        val binding = ActivitySelectBinding.inflate(layoutInflater)
+        val binding = ActivityChildSelectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         viewModel = AppViewModel.getInstance()
@@ -41,7 +41,7 @@ class SelectActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.myPage_btn -> {
-                val intent = Intent(this, MyPageActivity::class.java)
+                val intent = Intent(this, AllMyPageActivity::class.java)
                 startActivity(intent)
                 return true
             }
@@ -50,12 +50,12 @@ class SelectActivity : AppCompatActivity() {
     }
 
     fun onAIButtonClicked(){
-        val intent = Intent(this, ChatBotActivity::class.java)
+        val intent = Intent(this, ChildChatBotActivity::class.java)
         startActivity(intent)
     }
 
     fun onExpertButtonClicked(){
-        val intent = Intent(this, ExpertChatActivity::class.java)
+        val intent = Intent(this, ChildExpertChatActivity::class.java)
         startActivity(intent)
     }
 }

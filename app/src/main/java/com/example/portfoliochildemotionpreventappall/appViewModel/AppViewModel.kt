@@ -12,6 +12,8 @@ class AppViewModel private constructor() : ViewModel() {
 
     private val messageListLiveData = MutableLiveData<List<String>>()
 
+    private val userLiveData = MutableLiveData<String>()
+
     fun setJwtToken(token: String) {
         jwtTokenLiveData.value = token
     }
@@ -42,6 +44,14 @@ class AppViewModel private constructor() : ViewModel() {
 
     fun getMessageList(): LiveData<List<String>> {
         return messageListLiveData
+    }
+
+    fun setUser(user: String) {
+        userLiveData.value = user
+    }
+
+    fun getUser(): LiveData<String> {
+        return userLiveData
     }
 
     companion object {

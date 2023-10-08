@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".MainActivity">
+    tools:context=".AllMainActivity">
 
     <ImageView
         android:layout_width="120dp"
@@ -40,11 +40,36 @@
         android:id="@+id/child_btn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:background="#075AFF"
         android:padding="12dp"
-        android:text="시작"
+        android:text="아동 시작"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"/>
+
+    <android.widget.Button
+        android:id="@+id/expert_btn"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="#075AFF"
+        android:padding="12dp"
+        android:text="전문가 시작"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <android.widget.Button
+        android:id="@+id/manager_btn"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="#075AFF"
+        android:padding="12dp"
+        android:text="관리자 시작"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
 </LinearLayout>
