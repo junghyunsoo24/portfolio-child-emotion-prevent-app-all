@@ -10,14 +10,18 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.portfoliochildemotionpreventappall.adapter.ExpertChildListAdapter
 import com.example.portfoliochildemotionpreventappall.appViewModel.AppViewModel
 import com.example.portfoliochildemotionpreventappall.databinding.ActivityExpertChildlistBinding
+import com.example.portfoliochildemotionpreventappall.expertChildList.Child
+import com.example.portfoliochildemotionpreventappall.expertChildList.ExpertChildListApi
+import com.example.portfoliochildemotionpreventappall.expertChildList.ExpertChildListData
 import kotlinx.coroutines.launch
 
 class ExpertChildListActivity : AppCompatActivity() {
     private lateinit var viewModel: AppViewModel
     private lateinit var binding: ActivityExpertChildlistBinding
-//    private lateinit var result: List<Child>
+    private lateinit var result: List<Child>
     private lateinit var id: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,39 +46,48 @@ class ExpertChildListActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         binding.expertChildListRecyclerView.layoutManager = layoutManager
-//        val adapter = ChildListAdapter(emptyList())
-//        binding.expertChildListRecyclerView.adapter = adapter
+        val adapter = ExpertChildListAdapter(emptyList()) { child ->
+            viewModel.setChildId(child.id)
+            onChildChatButtonClicked()
+        }
+        binding.expertChildListRecyclerView.adapter = adapter
 
-//        mobileToServer()
+        mobileToServer()
     }
 
-//    private fun mobileToServer() {
-//        lifecycleScope.launch {
-//            try {
-//                val message = ChildList(id)
-//                val response = ChildListApi.retrofitService.sendsMessage(message)
-//                if (response.isSuccessful) {
-//                    val responseBody = response.body()
-//                    if (responseBody != null) {
-//                        // 서버 응답을 확인하는 작업 수행
-//                        val responseData = responseBody.result
-//                        result = responseData
-//
-//                        val adapter = binding.expertChildListRecyclerView.adapter as ChildListAdapter
-//                        adapter.childList = result // 어댑터에 데이터 설정
-//                        adapter.notifyDataSetChanged()
-//
-//                    } else {
-//                        Log.e("@@@@Error3", "Response body is null")
-//                    }
-//                } else {
-//                    Log.e("@@@@Error2", "Response not successful: ${response.code()}")
-//                }
-//            } catch (Ex: Exception) {
-//                Log.e("@@@@Error1", Ex.stackTraceToString())
-//            }
-//        }
-//    }
+    fun onChildChatButtonClicked() {
+        val intent = Intent(this, ExpertChildChatActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun mobileToServer() {
+        lifecycleScope.launch {
+            try {
+                val message = ExpertChildListData(id)
+                val response = ExpertChildListApi.retrofitService.sendsMessage(message)
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        // 서버 응답을 확인하는 작업 수행
+                        val responseData = responseBody.result
+                        result = responseData
+
+                        val adapter = binding.expertChildListRecyclerView.adapter as ExpertChildListAdapter
+                        adapter.childList = result // 어댑터에 데이터 설정
+                        adapter.notifyDataSetChanged()
+
+
+                    } else {
+                        Log.e("@@@@Error3", "Response body is null")
+                    }
+                } else {
+                    Log.e("@@@@Error2", "Response not successful: ${response.code()}")
+                }
+            } catch (Ex: Exception) {
+                Log.e("@@@@Error1", Ex.stackTraceToString())
+            }
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)

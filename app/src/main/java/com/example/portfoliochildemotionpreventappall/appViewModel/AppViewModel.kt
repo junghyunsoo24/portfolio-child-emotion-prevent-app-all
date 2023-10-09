@@ -14,6 +14,8 @@ class AppViewModel private constructor() : ViewModel() {
 
     private val userLiveData = MutableLiveData<String>()
 
+    private val childIdLiveData = MutableLiveData<String>()
+
     fun setJwtToken(token: String) {
         jwtTokenLiveData.value = token
     }
@@ -28,6 +30,14 @@ class AppViewModel private constructor() : ViewModel() {
 
     fun getUserId(): LiveData<String> {
         return userIdLiveData
+    }
+
+    fun setChildId(id: String) {
+        childIdLiveData.value = id
+    }
+
+    fun getChildId(): LiveData<String> {
+        return childIdLiveData
     }
 
     fun setUserPwd(pwd: String) {
