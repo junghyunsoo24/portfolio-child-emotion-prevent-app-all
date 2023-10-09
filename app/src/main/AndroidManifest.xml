@@ -77,6 +77,10 @@
             android:name=".ExpertChildListActivity"
             android:exported="false"
             android:parentActivityName=".ExpertSelectActivity" />
+        <activity
+            android:name=".ExpertChildChatActivity"
+            android:exported="false"
+            android:parentActivityName=".ExpertChildListActivity" />
 
         <activity
             android:name=".ExpertSelectActivity"
@@ -84,10 +88,15 @@
             android:parentActivityName=".AllLoginActivity" />
 
 
+
         <activity
             android:name=".ManagerChildListActivity"
             android:exported="false"
             android:parentActivityName=".ManagerSelectActivity" />
+        <activity
+            android:name=".ManagerExpertListActivity"
+            android:exported="false"
+            android:parentActivityName=".ManagerChildListActivity" />
         <activity
             android:name=".ManagerSelectActivity"
             android:exported="false"

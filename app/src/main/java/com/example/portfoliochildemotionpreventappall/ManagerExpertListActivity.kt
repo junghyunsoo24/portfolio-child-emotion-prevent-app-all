@@ -10,24 +10,23 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.portfoliochildemotionpreventappall.adapter.ExpertChildListAdapter
+import com.example.portfoliochildemotionpreventappall.adapter.ManagerExpertListAdapter
 import com.example.portfoliochildemotionpreventappall.appViewModel.AppViewModel
-import com.example.portfoliochildemotionpreventappall.databinding.ActivityExpertChildlistBinding
-import com.example.portfoliochildemotionpreventappall.expertChildList.Child
-import com.example.portfoliochildemotionpreventappall.expertChildList.ExpertChildListApi
-import com.example.portfoliochildemotionpreventappall.expertChildList.ExpertChildListData
+import com.example.portfoliochildemotionpreventappall.databinding.ActivityManagerExpertlistBinding
+import com.example.portfoliochildemotionpreventappall.managerExpertList.Expert
+import com.example.portfoliochildemotionpreventappall.managerExpertList.ManagerExpertListApi
 import kotlinx.coroutines.launch
 
-class ExpertChildListActivity : AppCompatActivity() {
+class ManagerExpertListActivity : AppCompatActivity() {
     private lateinit var viewModel: AppViewModel
-    private lateinit var binding: ActivityExpertChildlistBinding
-    private lateinit var result: List<Child>
-    private lateinit var id: String
+    private lateinit var binding: ActivityManagerExpertlistBinding
+
+    private lateinit var result: List<Expert>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityExpertChildlistBinding.inflate(layoutInflater)
+        binding = ActivityManagerExpertlistBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val actionBar: ActionBar? = supportActionBar
@@ -36,46 +35,37 @@ class ExpertChildListActivity : AppCompatActivity() {
         actionBar?.setCustomView(R.layout.actionbar_all)
 
         val actionBarTitle = actionBar?.customView?.findViewById<TextView>(R.id.actionBarAll)
-        actionBarTitle?.text = "할당된 아동 목록 조회"
+        actionBarTitle?.text = "전문가 목록"
 
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewModel = AppViewModel.getInstance()
 
-        id = viewModel.getUserId().value.toString()
-
         val layoutManager = LinearLayoutManager(this)
-        binding.expertChildListRecyclerView.layoutManager = layoutManager
-        val adapter = ExpertChildListAdapter(emptyList()) { child ->
-            viewModel.setChildId(child.id)
-            onChildChatButtonClicked()
+        binding.managerExpertListRecyclerView.layoutManager = layoutManager
+        val adapter = ManagerExpertListAdapter(emptyList()) { expert ->
+
         }
-        binding.expertChildListRecyclerView.adapter = adapter
+        binding.managerExpertListRecyclerView.adapter = adapter
 
         mobileToServer()
-    }
-
-    fun onChildChatButtonClicked() {
-        val intent = Intent(this, ExpertChildChatActivity::class.java)
-        startActivity(intent)
     }
 
     private fun mobileToServer() {
         lifecycleScope.launch {
             try {
-                val message = ExpertChildListData(id)
-                val response = ExpertChildListApi.retrofitService.sendsMessage(message)
+                val response = ManagerExpertListApi.retrofitService.sendsMessage()
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         // 서버 응답을 확인하는 작업 수행
-                        val responseData = responseBody.result
+                        val responseData = responseBody.expert
                         result = responseData
 
-                        val adapter = binding.expertChildListRecyclerView.adapter as ExpertChildListAdapter
-                        adapter.expertChildList = result // 어댑터에 데이터 설정
+                        val adapter =
+                            binding.managerExpertListRecyclerView.adapter as ManagerExpertListAdapter
+                        adapter.expertList = result // 어댑터에 데이터 설정
                         adapter.notifyDataSetChanged()
-
 
                     } else {
                         Log.e("@@@@Error3", "Response body is null")

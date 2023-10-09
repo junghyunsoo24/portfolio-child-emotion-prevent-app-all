@@ -12,13 +12,13 @@ class ExpertChatAdapter(private val expertChatData: List<ExpertChatDataPair>) :
     RecyclerView.Adapter<ExpertChatAdapter.MessageViewHolder>() {
 
     class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val inputMessageTextView: TextView = itemView.findViewById(R.id.inputExpertChatTextView)
-        val responseMessageTextView: TextView = itemView.findViewById(R.id.responseExpertChatTextView)
+        val inputMessageTextView: TextView = itemView.findViewById(R.id.inputChatTextView)
+        val responseMessageTextView: TextView = itemView.findViewById(R.id.responseChatTextView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_child_expertchat, parent, false)
+            .inflate(R.layout.item_all_chat, parent, false)
         return MessageViewHolder(itemView)
     }
 

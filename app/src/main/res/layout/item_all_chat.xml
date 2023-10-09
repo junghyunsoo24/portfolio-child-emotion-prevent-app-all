@@ -13,11 +13,11 @@
         android:gravity="end">
 
         <TextView
-            android:id="@+id/inputChatBotTextView"
+            android:id="@+id/inputChatTextView"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/chatbot_input"
+            android:background="@drawable/chat_input"
             android:gravity="start"
             android:paddingStart="16dp"
             android:paddingTop="8dp"
@@ -38,11 +38,11 @@
         android:gravity="start">
 
         <TextView
-            android:id="@+id/responseChatBotTextView"
+            android:id="@+id/responseChatTextView"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:background="@drawable/chatbot_output"
+            android:background="@drawable/chat_output"
             android:gravity="start"
             android:paddingStart="16dp"
             android:paddingTop="8dp"

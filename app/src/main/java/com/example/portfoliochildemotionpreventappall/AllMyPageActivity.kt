@@ -14,6 +14,7 @@ class AllMyPageActivity : AppCompatActivity() {
     private lateinit var viewModel: AppViewModel
     private val sharedPreferencesKey = "chat_history"
     private val sharedPreferencesKey2 = "expert_history"
+    private val sharedPreferencesKey3 = "child_history"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,10 +62,16 @@ class AllMyPageActivity : AppCompatActivity() {
         val sharedPreferences2 = getSharedPreferences(sharedPreferencesKey2, Context.MODE_PRIVATE)
         val editor2 = sharedPreferences2.edit()
 
+        val sharedPreferences3 = getSharedPreferences(sharedPreferencesKey3, Context.MODE_PRIVATE)
+        val editor3 = sharedPreferences3.edit()
+
         editor.remove(viewModel.getUserId().value)
         editor.apply()
 
         editor2.remove(viewModel.getUserId().value)
         editor2.apply()
+
+        editor3.remove(viewModel.getUserId().value)
+        editor3.apply()
     }
 }

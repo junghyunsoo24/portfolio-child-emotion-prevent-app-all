@@ -8,31 +8,31 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.portfoliochildemotionpreventappall.R
 import com.example.portfoliochildemotionpreventappall.expertChildList.Child
 
-class ExpertChildListAdapter(var childList: List<Child>, private val onItemClick: (Child) -> Unit) :
-    RecyclerView.Adapter<ExpertChildListAdapter.ChildViewHolder>() {
+class ExpertChildListAdapter(var expertChildList: List<Child>, private val onItemClick: (Child) -> Unit) :
+    RecyclerView.Adapter<ExpertChildListAdapter.ExpertChildViewHolder>() {
 
-    class ChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val childInfoTextView: TextView = itemView.findViewById(R.id.childInfoTextView)
+    class ExpertChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val expertChildInfoTextView: TextView = itemView.findViewById(R.id.childInfoTextView)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChildViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpertChildViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_expert_childlist, parent, false)
-        return ChildViewHolder(itemView)
+        return ExpertChildViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: ChildViewHolder, position: Int) {
-        val child = childList[position]
+    override fun onBindViewHolder(holder: ExpertChildViewHolder, position: Int) {
+        val child = expertChildList[position]
         val childInfo = "이름: ${child.name}\n 아이디: ${child.id}\n 비밀번호: ${child.pw}\n" +
                 "주소: ${child.address}\n 핸드폰번호: ${child.phone_num}\n 위험 상태: ${child.at_risk_child_status}\n"+
                 "감정: ${child.sentiment}\n"
 
-        holder.childInfoTextView.text = childInfo
+        holder.expertChildInfoTextView.text = childInfo
 
         holder.itemView.setOnClickListener {
             onItemClick(child)
         }
     }
 
-    override fun getItemCount() = childList.size
+    override fun getItemCount() = expertChildList.size
 }

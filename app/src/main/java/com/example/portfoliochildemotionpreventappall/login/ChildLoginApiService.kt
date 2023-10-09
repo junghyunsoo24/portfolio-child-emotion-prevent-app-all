@@ -30,7 +30,7 @@ private val retrofit = Retrofit.Builder()
 //    .client(mOkHttpClient)    //logger(디버깅용으로 쓰는 것이고 없애도 지장이 없음)
     .build()
 
-interface LoginApiService {
+interface ChildLoginApiService {
     @Headers("Content-Type: application/json")
 
     @POST("/login")
@@ -39,6 +39,6 @@ interface LoginApiService {
 }
 
 
-object LoginApi {
-    val retrofitService: LoginApiService by lazy { retrofit.create(LoginApiService::class.java) }
+object ChildLoginApi {
+    val retrofitService: ChildLoginApiService by lazy { retrofit.create(ChildLoginApiService::class.java) }
 }

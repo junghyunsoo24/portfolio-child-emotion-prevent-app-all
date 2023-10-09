@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.portfoliochildemotionpreventappall.R
-import com.example.portfoliochildemotionpreventappall.chatbot.ChatBotDataPair
+import com.example.portfoliochildemotionpreventappall.childChat.ChildChatDataPair
 
-class ChatBotAdapter(private val chatBotData: List<ChatBotDataPair>) :
-    RecyclerView.Adapter<ChatBotAdapter.MessageViewHolder>() {
+class ChildChatAdapter(private val childChatData: List<ChildChatDataPair>) :
+    RecyclerView.Adapter<ChildChatAdapter.MessageViewHolder>() {
 
     class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val inputMessageTextView: TextView = itemView.findViewById(R.id.inputChatBotTextView)
+        val inputMessageTextView: TextView = itemView.findViewById(R.id.inputChatTextView)
         val responseMessageTextView: TextView = itemView.findViewById(R.id.responseChatTextView)
     }
 
@@ -23,7 +23,7 @@ class ChatBotAdapter(private val chatBotData: List<ChatBotDataPair>) :
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
-        val messagePair = chatBotData[position]
+        val messagePair = childChatData[position]
 
         holder.inputMessageTextView.text = messagePair.inputMessage
         holder.inputMessageTextView.textSize = 23f
@@ -32,5 +32,5 @@ class ChatBotAdapter(private val chatBotData: List<ChatBotDataPair>) :
         holder.responseMessageTextView.textSize = 23f
     }
 
-    override fun getItemCount(): Int = chatBotData.size
+    override fun getItemCount(): Int = childChatData.size
 }

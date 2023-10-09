@@ -11,8 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.portfoliochildemotionpreventappall.appViewModel.AppViewModel
 import com.example.portfoliochildemotionpreventappall.databinding.ActivityAllLoginBinding
-import com.example.portfoliochildemotionpreventappall.login.LoginApi
-import com.example.portfoliochildemotionpreventappall.login.LoginData
+import com.example.portfoliochildemotionpreventappall.login.*
 import kotlinx.coroutines.launch
 
 class AllLoginActivity : AppCompatActivity() {
@@ -115,7 +114,7 @@ class AllLoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val message = LoginData(id, pw)
-                val response = LoginApi.retrofitService.sendsMessage(message)
+                val response = ChildLoginApi.retrofitService.sendsMessage(message)
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
@@ -140,7 +139,7 @@ class AllLoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val message = LoginData(id, pw)
-                val response = LoginApi.retrofitService.sendsMessage(message)
+                val response = ExpertLoginApi.retrofitService.sendsMessage(message)
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
@@ -165,7 +164,7 @@ class AllLoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val message = LoginData(id, pw)
-                val response = LoginApi.retrofitService.sendsMessage(message)
+                val response = ManagerLoginApi.retrofitService.sendsMessage(message)
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
