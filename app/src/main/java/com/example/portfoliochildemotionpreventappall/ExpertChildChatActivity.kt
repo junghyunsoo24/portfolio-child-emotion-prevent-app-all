@@ -11,12 +11,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.portfoliochildemotionpreventappall.adapter.ExpertChatAdapter
+import com.example.portfoliochildemotionpreventappall.adapter.ChildChatAdapter
 import com.example.portfoliochildemotionpreventappall.appViewModel.AppViewModel
+import com.example.portfoliochildemotionpreventappall.childChat.ChildChatDataPair
 import com.example.portfoliochildemotionpreventappall.databinding.ActivityChildExpertchatBinding
-import com.example.portfoliochildemotionpreventappall.expertChat.ExpertChatDataPair
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.socket.client.IO
@@ -27,8 +26,8 @@ import java.net.URISyntaxException
 class ExpertChildChatActivity : AppCompatActivity() {
     private lateinit var input: String
     private lateinit var id: String
-    private lateinit var adapter: ExpertChatAdapter
-    private val messages = mutableListOf<ExpertChatDataPair>()
+    private lateinit var adapter: ChildChatAdapter
+    private val messages = mutableListOf<ChildChatDataPair>()
     private lateinit var binding: ActivityChildExpertchatBinding
 
     private lateinit var viewModel: AppViewModel
@@ -48,7 +47,7 @@ class ExpertChildChatActivity : AppCompatActivity() {
         id = viewModel.getUserId().value.toString()
 
 
-        adapter = ExpertChatAdapter(messages)
+        adapter = ChildChatAdapter(messages)
         binding.expertChatRecyclerView.adapter = adapter
         binding.expertChatRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -59,7 +58,7 @@ class ExpertChildChatActivity : AppCompatActivity() {
             mSocket = IO.socket("http://10.0.2.2:3000",options)
             mSocket.connect()
 
-            val roomName = viewModel.getChildId()
+            val roomName = viewModel.getChildId().value
 
             //(1)입장
             val data = JoinData(id, roomName) // (2) 멤버 이름 일치시키기
@@ -72,10 +71,9 @@ class ExpertChildChatActivity : AppCompatActivity() {
             mSocket.on("roomMessage") { args ->
                 val roomMessage  = args[0] as String
                 val senderID = args[1] as String
-
                 if (senderID != id) {
                     runOnUiThread {
-                        val messagePair = ExpertChatDataPair(input, roomMessage)
+                        val messagePair = ChildChatDataPair(input, roomMessage)
                         messages.add(messagePair)
 
                         adapter.notifyDataSetChanged()
@@ -158,7 +156,7 @@ class ExpertChildChatActivity : AppCompatActivity() {
         val chatHistoryJson = sharedPreferences.getString(id, "")
 
         if (!chatHistoryJson.isNullOrEmpty()) {
-            val chatHistory = Gson().fromJson<List<ExpertChatDataPair>>(chatHistoryJson, object : TypeToken<List<ExpertChatDataPair>>() {}.type)
+            val chatHistory = Gson().fromJson<List<ChildChatDataPair>>(chatHistoryJson, object : TypeToken<List<ChildChatDataPair>>() {}.type)
             messages.addAll(chatHistory)
             adapter.notifyDataSetChanged()
             scrollToBottom()
@@ -187,6 +185,6 @@ class ExpertChildChatActivity : AppCompatActivity() {
         mSocket.disconnect()
     }
 
-    data class SocketData(val message: LiveData<String>, val room: String, val senderID: String)
-    data class JoinData(val id: String, val room: LiveData<String>)
+    data class SocketData(val message: String?, val room: String, val senderID: String)
+    data class JoinData(val id: String, val room: String?)
 }

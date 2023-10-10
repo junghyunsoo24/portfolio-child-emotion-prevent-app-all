@@ -12,7 +12,7 @@ class ChatBotAdapter(private val chatBotData: List<ChatBotDataPair>) :
     RecyclerView.Adapter<ChatBotAdapter.MessageViewHolder>() {
 
     class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val inputMessageTextView: TextView = itemView.findViewById(R.id.inputChatBotTextView)
+        val inputMessageTextView: TextView = itemView.findViewById(R.id.inputChatTextView)
         val responseMessageTextView: TextView = itemView.findViewById(R.id.responseChatTextView)
     }
 

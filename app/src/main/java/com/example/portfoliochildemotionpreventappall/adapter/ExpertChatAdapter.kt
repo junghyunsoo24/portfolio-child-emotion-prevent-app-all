@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.portfoliochildemotionpreventappall.R
 import com.example.portfoliochildemotionpreventappall.expertChat.ExpertChatDataPair
 
-class ExpertChatAdapter(private val expertChatData: List<ExpertChatDataPair>) :
+class ExpertChatAdapter(private val expertChatData: MutableList<ExpertChatDataPair>) :
     RecyclerView.Adapter<ExpertChatAdapter.MessageViewHolder>() {
 
     class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

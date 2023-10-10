@@ -7,12 +7,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.portfoliochildemotionpreventappall.adapter.ManagerExpertListAdapter
 import com.example.portfoliochildemotionpreventappall.appViewModel.AppViewModel
 import com.example.portfoliochildemotionpreventappall.databinding.ActivityManagerExpertlistBinding
+import com.example.portfoliochildemotionpreventappall.managerAllocate.AllocateApi
+import com.example.portfoliochildemotionpreventappall.managerAllocate.AllocateData
 import com.example.portfoliochildemotionpreventappall.managerExpertList.Expert
 import com.example.portfoliochildemotionpreventappall.managerExpertList.ManagerExpertListApi
 import kotlinx.coroutines.launch
@@ -44,11 +47,52 @@ class ManagerExpertListActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         binding.managerExpertListRecyclerView.layoutManager = layoutManager
         val adapter = ManagerExpertListAdapter(emptyList()) { expert ->
+            viewModel.setExpertId(expert.id)
+            allocateDataToServer()
 
         }
         binding.managerExpertListRecyclerView.adapter = adapter
 
         mobileToServer()
+    }
+
+    private fun allocateDataToServer() {
+        lifecycleScope.launch {
+            try {
+                val message = viewModel.getChildId().value?.let { AllocateData(it,
+                    viewModel.getExpertId().value!!
+                ) }
+                val response = message?.let { AllocateApi.retrofitService.sendsMessage(it) }
+                if (response != null) {
+                    if (response.isSuccessful) {
+                        val responseBody = response?.body()
+                        if (responseBody != null) {
+                            // 서버 응답을 확인하는 작업 수행
+                            val responseData = responseBody.result
+                            showAlertDialog(responseData)
+                        } else {
+                            Log.e("@@@@Error3", "Response body is null")
+                        }
+                    } else {
+                        Log.e("@@@@Error2", "Response not successful: ${response.code()}")
+                    }
+                }
+            } catch (Ex: Exception) {
+                Log.e("@@@@Error1", Ex.stackTraceToString())
+            }
+        }
+    }
+
+    private fun showAlertDialog(message: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(message)
+        builder.setMessage("아동 할당 성공\n" + "아동: " + viewModel.getChildId().value +
+                "\n" + "청소년: " + viewModel.getExpertId().value)
+
+        builder.setPositiveButton("확인") { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.show()
     }
 
     private fun mobileToServer() {

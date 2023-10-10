@@ -1,4 +1,4 @@
-package com.example.portfoliochildemotionpreventappall.register
+package com.example.portfoliochildemotionpreventappall.managerAllocate
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -30,14 +30,15 @@ private val retrofit = Retrofit.Builder()
 //    .client(mOkHttpClient)    //logger(디버깅용으로 쓰는 것이고 없애도 지장이 없음)
     .build()
 
-interface RegisterApiService {
+interface AllocateApiService {
     @Headers("Content-Type: application/json")
 
-    @POST("/signUp")
-    suspend fun sendsMessage(@Body message: RegisterData): Response<RegisterDataResponse>
+    @POST("/manager/matchExpert")
+    suspend fun sendsMessage(@Body message: AllocateData): Response<AllocateDataResponse>
 
 }
 
-object RegisterApi {
-    val retrofitService: RegisterApiService by lazy { retrofit.create(RegisterApiService::class.java) }
+
+object AllocateApi {
+    val retrofitService: AllocateApiService by lazy { retrofit.create(AllocateApiService::class.java) }
 }
