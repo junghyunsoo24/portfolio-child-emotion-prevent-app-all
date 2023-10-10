@@ -46,7 +46,7 @@ class ChildExpertChatActivity : AppCompatActivity() {
 
         viewModel = AppViewModel.getInstance()
 
-        id = viewModel.getUserId().value.toString()
+        id = viewModel.getUserId().value!!
 
         adapter = ExpertChatAdapter(messages)
         binding.expertChatRecyclerView.adapter = adapter
@@ -93,14 +93,21 @@ class ChildExpertChatActivity : AppCompatActivity() {
                     if (input.isNotBlank()) {
                         val message = input
                         //(2) 채팅을 서버로부터 전송
-                        val dataToJson2 = SocketData(roomName, message, id)
+                        val dataToJson2 = roomName?.let{ SocketData(message, it, id) }
                         val jsonObject2 = JSONObject()
-                        jsonObject2.put("room", dataToJson2.room)
-                        jsonObject2.put("message", dataToJson2.message)
-                        jsonObject2.put("senderID", dataToJson2.senderID)
+                        if (dataToJson2 != null) {
+                            jsonObject2.put("message", dataToJson2.message)
+                        }
+                        if (dataToJson2 != null) {
+                            jsonObject2.put("room", dataToJson2.room)
+                        }
+                        if (dataToJson2 != null) {
+                            jsonObject2.put("senderID", dataToJson2.senderID)
+                        }
                         mSocket.emit("chatMessage", jsonObject2)
 
                         showAlertDialog(message)
+
                         binding.input.text = null
                     }
                     true
@@ -198,6 +205,6 @@ class ChildExpertChatActivity : AppCompatActivity() {
         mSocket.disconnect()
     }
 
-    data class SocketData(val message: String, val room: String, val senderID: String)
-    data class JoinData(val id: String, val room: String)
+    data class SocketData(val message: String?, val room: String, val senderID: String)
+    data class JoinData(val id: String, val room: String?)
 }

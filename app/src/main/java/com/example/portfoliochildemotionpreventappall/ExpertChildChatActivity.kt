@@ -3,6 +3,7 @@ package com.example.portfoliochildemotionpreventappall
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -36,7 +37,6 @@ class ExpertChildChatActivity : AppCompatActivity() {
     private val sharedPreferencesKey = "child_history"
 
     private lateinit var mSocket: Socket
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -45,8 +45,7 @@ class ExpertChildChatActivity : AppCompatActivity() {
 
         viewModel = AppViewModel.getInstance()
 
-        id = viewModel.getUserId().value.toString()
-
+        id = viewModel.getUserId().value!!
 
         adapter = ChildChatAdapter(messages)
         binding.expertChatRecyclerView.adapter = adapter
@@ -62,7 +61,7 @@ class ExpertChildChatActivity : AppCompatActivity() {
             val roomName = viewModel.getChildId().value
 
             //(1)입장
-            val data = JoinData(id, roomName) // (2) 멤버 이름 일치시키기
+            val data = ChildExpertChatActivity.JoinData(id, roomName) // (2) 멤버 이름 일치시키기
             val jsonObject = JSONObject()
             jsonObject.put("id", data.id)
             jsonObject.put("room", data.room)
@@ -78,7 +77,7 @@ class ExpertChildChatActivity : AppCompatActivity() {
                         messages.add(messagePair)
 
                         adapter.notifyDataSetChanged()
-                        saveExpertChatHistory()
+                        saveChildChatHistory()
                         scrollToBottom()
                     }
                 }
@@ -92,11 +91,23 @@ class ExpertChildChatActivity : AppCompatActivity() {
                     if (input.isNotBlank()) {
                         val message = input
                         //(2) 채팅을 서버로부터 전송
-                        val dataToJson2 = SocketData(roomName, message, id)
+                        val dataToJson2 = roomName?.let {
+                            ChildExpertChatActivity.SocketData(
+                                message,
+                                it,
+                                id
+                            )
+                        }
                         val jsonObject2 = JSONObject()
-                        jsonObject2.put("room", dataToJson2.room)
-                        jsonObject2.put("message", dataToJson2.message)
-                        jsonObject2.put("senderID", dataToJson2.senderID)
+                        if (dataToJson2 != null) {
+                            jsonObject2.put("message", dataToJson2.message)
+                        }
+                        if (dataToJson2 != null) {
+                            jsonObject2.put("room", dataToJson2.room)
+                        }
+                        if (dataToJson2 != null) {
+                            jsonObject2.put("senderID", dataToJson2.senderID)
+                        }
                         mSocket.emit("chatMessage", jsonObject2)
 
                         showAlertDialog(message)
@@ -128,10 +139,10 @@ class ExpertChildChatActivity : AppCompatActivity() {
 
     private fun showAlertDialog(message: String) {
         val builder = AlertDialog.Builder(this)
-            builder.setTitle("채팅 보내기 성공")
-            builder.setMessage("$message\n를 성공적으로 보냈습니다. 답장올때까지 기다려주세요.")
-            builder.setPositiveButton("확인") { dialog, _ ->
-                dialog.dismiss()
+        builder.setTitle("채팅 보내기 성공")
+        builder.setMessage("$message\n를 성공적으로 보냈습니다. 답장올때까지 기다려주세요.")
+        builder.setPositiveButton("확인") { dialog, _ ->
+            dialog.dismiss()
         }
         builder.show()
     }
@@ -177,7 +188,7 @@ class ExpertChildChatActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveExpertChatHistory() {
+    private fun saveChildChatHistory() {
         val sharedPreferences = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
@@ -198,7 +209,4 @@ class ExpertChildChatActivity : AppCompatActivity() {
         super.onDestroy()
         mSocket.disconnect()
     }
-
-    data class SocketData(val message: String?, val room: String, val senderID: String)
-    data class JoinData(val id: String, val room: String?)
 }
