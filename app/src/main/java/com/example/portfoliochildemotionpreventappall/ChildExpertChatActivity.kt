@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.portfoliochildemotionpreventappall.adapter.ExpertChatAdapter
@@ -99,6 +100,7 @@ class ChildExpertChatActivity : AppCompatActivity() {
                         jsonObject2.put("senderID", dataToJson2.senderID)
                         mSocket.emit("chatMessage", jsonObject2)
 
+                        showAlertDialog(message)
                         binding.input.text = null
                     }
                     true
@@ -121,6 +123,16 @@ class ChildExpertChatActivity : AppCompatActivity() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
         loadChatHistory()
+    }
+
+    private fun showAlertDialog(message: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("채팅 보내기 성공")
+        builder.setMessage("$message\n를 성공적으로 보냈습니다. 답장올때까지 기다려주세요.")
+        builder.setPositiveButton("확인") { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
