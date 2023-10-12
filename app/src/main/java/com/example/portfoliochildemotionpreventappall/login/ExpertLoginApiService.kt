@@ -10,8 +10,6 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-private const val BASE_URL = "http://10.0.2.2:8000"
-
 private val mHttpLoggingInterceptor = HttpLoggingInterceptor()
     .setLevel(HttpLoggingInterceptor.Level.BODY) // BASIC) // check constants
 

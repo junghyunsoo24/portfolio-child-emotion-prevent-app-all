@@ -23,6 +23,8 @@ class ExpertChildListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityExpertChildlistBinding
     private lateinit var result: List<Child>
     private lateinit var id: String
+    private lateinit var baseUrl: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +54,7 @@ class ExpertChildListActivity : AppCompatActivity() {
         }
         binding.expertChildListRecyclerView.adapter = adapter
 
+        baseUrl = resources.getString(R.string.api_ip_server)
         mobileToServer()
     }
 
@@ -64,7 +67,7 @@ class ExpertChildListActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val message = ExpertChildListData(id)
-                val response = ExpertChildListApi.retrofitService.sendsMessage(message)
+                val response = ExpertChildListApi.retrofitService(baseUrl).sendsMessage(message)
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {

@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 class ChildChatBotActivity : AppCompatActivity() {
     private lateinit var input: String
     private lateinit var id: String
+    private lateinit var baseUrl: String
 
     private lateinit var adapter: ChatBotAdapter
     private val messages = mutableListOf<ChatBotDataPair>()
@@ -57,6 +58,7 @@ class ChildChatBotActivity : AppCompatActivity() {
                 val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(binding.input.windowToken, 0)
                 if (input.isNotBlank()) {
+                    baseUrl = resources.getString(R.string.api_ip_server)
                     mobileToServer()
 
                     binding.input.text = null
@@ -102,7 +104,7 @@ class ChildChatBotActivity : AppCompatActivity() {
             try {
                 val message = ChatBotData(id, input)
 
-                val response = ChatBotApi.retrofitService.sendMessage(message)
+                val response = ChatBotApi.retrofitService(baseUrl).sendMessage(message)
 
                 if (response.isSuccessful) {
                     val responseBody = response.body()

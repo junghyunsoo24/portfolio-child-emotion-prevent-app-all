@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 class ManagerExpertListActivity : AppCompatActivity() {
     private lateinit var viewModel: AppViewModel
     private lateinit var binding: ActivityManagerExpertlistBinding
+    private lateinit var baseUrl: String
 
     private lateinit var result: List<Expert>
 
@@ -53,6 +54,7 @@ class ManagerExpertListActivity : AppCompatActivity() {
         }
         binding.managerExpertListRecyclerView.adapter = adapter
 
+        baseUrl = resources.getString(R.string.api_ip_server)
         mobileToServer()
     }
 
@@ -62,7 +64,7 @@ class ManagerExpertListActivity : AppCompatActivity() {
                 val message = viewModel.getChildId().value?.let { AllocateData(it,
                     viewModel.getExpertId().value!!
                 ) }
-                val response = message?.let { AllocateApi.retrofitService.sendsMessage(it) }
+                val response = message?.let { AllocateApi.retrofitService(baseUrl).sendsMessage(it) }
                 if (response != null) {
                     if (response.isSuccessful) {
                         val responseBody = response?.body()
@@ -98,7 +100,7 @@ class ManagerExpertListActivity : AppCompatActivity() {
     private fun mobileToServer() {
         lifecycleScope.launch {
             try {
-                val response = ManagerExpertListApi.retrofitService.sendsMessage()
+                val response = ManagerExpertListApi.retrofitService(baseUrl).sendsMessage()
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {

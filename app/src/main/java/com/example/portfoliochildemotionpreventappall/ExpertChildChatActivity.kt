@@ -55,7 +55,7 @@ class ExpertChildChatActivity : AppCompatActivity() {
         try {
             val options = IO.Options()
             options.forceNew = true
-            mSocket = IO.socket("http://10.0.2.2:3000",options)
+            mSocket = IO.socket(resources.getString(R.string.chat_ip_server),options)
             mSocket.connect()
 
             val roomName = viewModel.getChildId().value

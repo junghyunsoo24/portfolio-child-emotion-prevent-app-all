@@ -18,6 +18,8 @@ class ManagerRegisterActivity : AppCompatActivity(){
     private lateinit var pw: String
 
     private lateinit var text: String
+    private lateinit var baseUrl: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,6 +40,7 @@ class ManagerRegisterActivity : AppCompatActivity(){
             id = binding.firstManagerIdInput.text.toString()
             pw = binding.firstManagerPwdInput.text.toString()
 
+            baseUrl = resources.getString(R.string.api_ip_server)
             mobileToServer()
         }
     }
@@ -64,7 +67,7 @@ class ManagerRegisterActivity : AppCompatActivity(){
         lifecycleScope.launch {
             try {
                 val message = ManagerRegisterData(id, pw)
-                val response = ManagerRegisterApi.retrofitService.sendsMessage(message)
+                val response = ManagerRegisterApi.retrofitService(baseUrl).sendsMessage(message)
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {

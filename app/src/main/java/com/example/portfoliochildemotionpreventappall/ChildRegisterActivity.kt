@@ -28,6 +28,9 @@ class ChildRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedLis
 
     private lateinit var genderValue: String
     private lateinit var text: String
+
+    private lateinit var baseUrl: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -62,6 +65,7 @@ class ChildRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedLis
             }
             phone_num = binding.addressInput.text.toString()
 
+            baseUrl = resources.getString(R.string.api_ip_server)
             mobileToServer()
         }
     }
@@ -101,7 +105,7 @@ class ChildRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedLis
         lifecycleScope.launch {
             try {
                 val message = RegisterData(id, pw, name, age, address, genderValue, phone_num)
-                val response = RegisterApi.retrofitService.sendsMessage(message)
+                val response = RegisterApi.retrofitService(baseUrl).sendsMessage(message)
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {

@@ -9,14 +9,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-private const val BASE_URL = "http://10.0.2.2:8000"
-
 private val mHttpLoggingInterceptor = HttpLoggingInterceptor()
     .setLevel(HttpLoggingInterceptor.Level.BODY) // BASIC) // check constants
-//test
-//Pr Test
-//나라
-//다시 충돌
 
 //private val mOkHttpClient = OkHttpClient
 //    .Builder()
@@ -27,11 +21,12 @@ private val moshi = Moshi.Builder()//더 편하게 하기 위해서 사용
     .add(KotlinJsonAdapterFactory())
     .build()
 
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
-    .baseUrl(BASE_URL)
-//    .client(mOkHttpClient)    //logger(디버깅용으로 쓰는 것이고 없애도 지장이 없음)
-    .build()
+private fun createRetrofit(baseUrl: String): Retrofit {
+    return Retrofit.Builder()
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .baseUrl(baseUrl)
+        .build()
+}
 
 interface ManagerChildListApiService {
     @Headers("Content-Type: application/json")
@@ -43,5 +38,8 @@ interface ManagerChildListApiService {
 
 
 object ManagerChildListApi {
-    val retrofitService: ManagerChildListApiService by lazy { retrofit.create(ManagerChildListApiService::class.java) }
+    fun retrofitService(baseUrl: String): ManagerChildListApiService {
+        val retrofit = createRetrofit(baseUrl)
+        return retrofit.create(ManagerChildListApiService::class.java)
+    }
 }

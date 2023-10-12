@@ -9,8 +9,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-private const val BASE_URL = "http://10.0.2.2:8000"
-
 private val mHttpLoggingInterceptor = HttpLoggingInterceptor()
     .setLevel(HttpLoggingInterceptor.Level.BODY) // BASIC) // check constants
 
@@ -23,11 +21,12 @@ private val moshi = Moshi.Builder()//더 편하게 하기 위해서 사용
     .add(KotlinJsonAdapterFactory())
     .build()
 
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
-    .baseUrl(BASE_URL)
-//    .client(mOkHttpClient)    //logger(디버깅용으로 쓰는 것이고 없애도 지장이 없음)
-    .build()
+private fun createRetrofit(baseUrl: String): Retrofit {
+    return Retrofit.Builder()
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .baseUrl(baseUrl)
+        .build()
+}
 
 interface ManagerExpertListApiService {
     @Headers("Content-Type: application/json")
@@ -39,5 +38,8 @@ interface ManagerExpertListApiService {
 
 
 object ManagerExpertListApi {
-    val retrofitService: ManagerExpertListApiService by lazy { retrofit.create(ManagerExpertListApiService::class.java) }
+    fun retrofitService(baseUrl: String): ManagerExpertListApiService {
+        val retrofit = createRetrofit(baseUrl)
+        return retrofit.create(ManagerExpertListApiService::class.java)
+    }
 }

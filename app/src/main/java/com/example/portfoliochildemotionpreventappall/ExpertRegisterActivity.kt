@@ -19,6 +19,7 @@ class ExpertRegisterActivity : AppCompatActivity(){
     private lateinit var name: String
     private lateinit var email: String
     private lateinit var institution: String
+    private lateinit var baseUrl: String
 
     private lateinit var text: String
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +45,7 @@ class ExpertRegisterActivity : AppCompatActivity(){
             email = binding.emailInput.text.toString()
             institution = binding.institutionInput.text.toString()
 
+            baseUrl = resources.getString(R.string.api_ip_server)
             mobileToServer()
         }
     }
@@ -70,7 +72,7 @@ class ExpertRegisterActivity : AppCompatActivity(){
         lifecycleScope.launch {
             try {
                 val message = ExpertRegisterData(id, pw, name, email, institution)
-                val response = ExpertRegisterApi.retrofitService.sendsMessage(message)
+                val response = ExpertRegisterApi.retrofitService(baseUrl).sendsMessage(message)
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
