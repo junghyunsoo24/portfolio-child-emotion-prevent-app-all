@@ -38,7 +38,7 @@ class ExpertChildListActivity : AppCompatActivity() {
         actionBar?.setCustomView(R.layout.actionbar_all)
 
         val actionBarTitle = actionBar?.customView?.findViewById<TextView>(R.id.actionBarAll)
-        actionBarTitle?.text = "할당된 아동 목록 조회"
+        actionBarTitle?.text = "할당된아동 목록조회"
 
         actionBar?.setDisplayHomeAsUpEnabled(true)
 

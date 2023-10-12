@@ -52,8 +52,8 @@
 
             <EditText
                 android:id="@+id/first_pwd_input"
-                android:layout_width="240dp"
-                android:layout_height="60dp"
+                android:layout_width="284dp"
+                android:layout_height="wrap_content"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="비밀 번호를 입력 하세요."
@@ -151,8 +151,8 @@
 
             <EditText
                 android:id="@+id/phone_input"
-                android:layout_width="240dp"
-                android:layout_height="60dp"
+                android:layout_width="352dp"
+                android:layout_height="wrap_content"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="핸드폰번호를 입력하세요."
