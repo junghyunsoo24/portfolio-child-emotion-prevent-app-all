@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PortfolioChildEmotionPreventAppAll</string>
+
+    <string name="api_localhost_server">http://10.0.2.2:8000</string>
+    <string name="chat_localhost_server">http://10.0.2.2:3000</string>
+
+    <string name="api_ip_server">http://172.30.71.64:8000</string>
+    <string name="chat_ip_server">http://172.30.71.64:3000</string>
 </resources>

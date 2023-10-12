@@ -24,11 +24,12 @@ private val moshi = Moshi.Builder()//더 편하게 하기 위해서 사용
     .add(KotlinJsonAdapterFactory())
     .build()
 
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
-    .baseUrl(BASE_URL)
-//    .client(mOkHttpClient)    //logger(디버깅용으로 쓰는 것이고 없애도 지장이 없음)
-    .build()
+private fun createRetrofit(baseUrl: String): Retrofit {
+    return Retrofit.Builder()
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .baseUrl(baseUrl)
+        .build()
+}
 
 interface ExpertLoginApiService {
     @Headers("Content-Type: application/json")
@@ -40,5 +41,8 @@ interface ExpertLoginApiService {
 
 
 object ExpertLoginApi {
-    val retrofitService: ExpertLoginApiService by lazy { retrofit.create(ExpertLoginApiService::class.java) }
+    fun retrofitService(baseUrl: String): ExpertLoginApiService {
+        val retrofit = createRetrofit(baseUrl)
+        return retrofit.create(ExpertLoginApiService::class.java)
+    }
 }

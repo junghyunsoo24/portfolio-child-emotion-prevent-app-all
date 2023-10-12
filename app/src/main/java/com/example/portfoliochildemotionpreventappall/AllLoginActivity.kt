@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class AllLoginActivity : AppCompatActivity() {
     private lateinit var id: String
     private lateinit var pw: String
-
+    private lateinit var baseUrl: String
     private lateinit var viewModel: AppViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +44,8 @@ class AllLoginActivity : AppCompatActivity() {
         login.setOnClickListener {
             id = binding.idInput.text.toString()
             pw = binding.pwdInput.text.toString()
+
+            baseUrl = resources.getString(R.string.api_ip_server)
 
             if(viewModel.getUser().value == "0") {
                 mobileToServer()
@@ -114,7 +116,7 @@ class AllLoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val message = LoginData(id, pw)
-                val response = ChildLoginApi.retrofitService.sendsMessage(message)
+                val response = ChildLoginApi.retrofitService(baseUrl).sendsMessage(message)
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
@@ -139,7 +141,7 @@ class AllLoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val message = LoginData(id, pw)
-                val response = ExpertLoginApi.retrofitService.sendsMessage(message)
+                val response = ExpertLoginApi.retrofitService(baseUrl).sendsMessage(message)
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
@@ -164,7 +166,7 @@ class AllLoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val message = LoginData(id, pw)
-                val response = ManagerLoginApi.retrofitService.sendsMessage(message)
+                val response = ManagerLoginApi.retrofitService(baseUrl).sendsMessage(message)
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
