@@ -1,0 +1,3 @@
+package com.example.portfoliochildemotionpreventappall.expertChildStatistics
+
+data class ExpertChildStatisticsData(val child_id: String)

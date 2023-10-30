@@ -10,26 +10,27 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.portfoliochildemotionpreventappall.adapter.ExpertChildListAdapter
+import com.example.portfoliochildemotionpreventappall.adapter.ExpertChildStatisticsAdapter
 import com.example.portfoliochildemotionpreventappall.appViewModel.AppViewModel
-import com.example.portfoliochildemotionpreventappall.databinding.ActivityExpertChildlistBinding
-import com.example.portfoliochildemotionpreventappall.expertChildList.Child
-import com.example.portfoliochildemotionpreventappall.expertChildList.ExpertChildListApi
-import com.example.portfoliochildemotionpreventappall.expertChildList.ExpertChildListData
+import com.example.portfoliochildemotionpreventappall.databinding.ActivityExpertChildStatisticsBinding
+import com.example.portfoliochildemotionpreventappall.expertChildStatistics.ExpertChildStatisticsApi
+import com.example.portfoliochildemotionpreventappall.expertChildStatistics.ExpertChildStatisticsData
+import com.example.portfoliochildemotionpreventappall.expertChildStatistics.Statistics
 import kotlinx.coroutines.launch
 
-class ExpertChildListActivity : AppCompatActivity() {
+class ExpertChildStatisticsActivity : AppCompatActivity() {
     private lateinit var viewModel: AppViewModel
-    private lateinit var binding: ActivityExpertChildlistBinding
-    private lateinit var result: List<Child>
+    private lateinit var binding: ActivityExpertChildStatisticsBinding
+    private lateinit var result: List<Statistics>
     private lateinit var id: String
+    private lateinit var child_id: String
     private lateinit var baseUrl: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityExpertChildlistBinding.inflate(layoutInflater)
+        binding = ActivityExpertChildStatisticsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val actionBar: ActionBar? = supportActionBar
@@ -38,45 +39,45 @@ class ExpertChildListActivity : AppCompatActivity() {
         actionBar?.setCustomView(R.layout.actionbar_all)
 
         val actionBarTitle = actionBar?.customView?.findViewById<TextView>(R.id.actionBarAll)
-        actionBarTitle?.text = "할당된아동 목록조회"
+        actionBarTitle?.text = "감정 통계 조회"
 
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewModel = AppViewModel.getInstance()
 
         id = viewModel.getUserId().value.toString()
+        child_id = viewModel.getChildId().value.toString()
 
         val layoutManager = LinearLayoutManager(this)
-        binding.expertChildListRecyclerView.layoutManager = layoutManager
-        val adapter = ExpertChildListAdapter(emptyList()) { child ->
-            viewModel.setChildId(child.id)
-            onChildStatisticsButtonClicked()
+        binding.expertChildStatisticsRecyclerView.layoutManager = layoutManager
+        val adapter = ExpertChildStatisticsAdapter(emptyList()) {
+            onChildChatButtonClicked()
         }
-        binding.expertChildListRecyclerView.adapter = adapter
+        binding.expertChildStatisticsRecyclerView.adapter = adapter
 
         baseUrl = resources.getString(R.string.api_ip_server)
         mobileToServer()
     }
 
-    private fun onChildStatisticsButtonClicked() {
-        val intent = Intent(this, ExpertChildStatisticsActivity::class.java)
+    private fun onChildChatButtonClicked() {
+        val intent = Intent(this, ExpertChildChatActivity::class.java)
         startActivity(intent)
     }
 
     private fun mobileToServer() {
         lifecycleScope.launch {
             try {
-                val message = ExpertChildListData(id)
-                val response = ExpertChildListApi.retrofitService(baseUrl).sendsMessage(message)
+                val message = ExpertChildStatisticsData(child_id)
+                val response = ExpertChildStatisticsApi.retrofitService(baseUrl).sendsMessage(message)
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         // 서버 응답을 확인하는 작업 수행
-                        val responseData = responseBody.result
+                        val responseData = responseBody.statistics
                         result = responseData
 
-                        val adapter = binding.expertChildListRecyclerView.adapter as ExpertChildListAdapter
-                        adapter.expertChildList = result // 어댑터에 데이터 설정
+                        val adapter = binding.expertChildStatisticsRecyclerView.adapter as ExpertChildStatisticsAdapter
+                        adapter.childStatistics = result // 어댑터에 데이터 설정
                         adapter.notifyDataSetChanged()
 
 

@@ -78,9 +78,13 @@
             android:exported="false"
             android:parentActivityName=".ExpertSelectActivity" />
         <activity
-            android:name=".ExpertChildChatActivity"
+            android:name=".ExpertChildStatisticsActivity"
             android:exported="false"
             android:parentActivityName=".ExpertChildListActivity" />
+        <activity
+            android:name=".ExpertChildChatActivity"
+            android:exported="false"
+            android:parentActivityName=".ExpertChildStatisticsActivity" />
 
         <activity
             android:name=".ExpertSelectActivity"
