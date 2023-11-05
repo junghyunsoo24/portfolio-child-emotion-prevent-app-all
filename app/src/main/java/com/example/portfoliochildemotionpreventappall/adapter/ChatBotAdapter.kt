@@ -25,11 +25,21 @@ class ChatBotAdapter(private val chatBotData: List<ChatBotDataPair>) :
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         val messagePair = chatBotData[position]
 
-        holder.inputMessageTextView.text = messagePair.inputMessage
-        holder.inputMessageTextView.textSize = 23f
+        if (messagePair.inputMessage.isNullOrEmpty()) {
+            holder.inputMessageTextView.visibility = View.GONE
+        } else {
+            holder.inputMessageTextView.text = messagePair.inputMessage
+            holder.inputMessageTextView.textSize = 15f
+            holder.inputMessageTextView.visibility = View.VISIBLE
+        }
 
-        holder.responseMessageTextView.text = messagePair.responseMessage
-        holder.responseMessageTextView.textSize = 23f
+        if (messagePair.responseMessage.isNullOrEmpty()) {
+            holder.responseMessageTextView.visibility = View.GONE
+        } else {
+            holder.responseMessageTextView.text = messagePair.responseMessage
+            holder.responseMessageTextView.textSize = 15f
+            holder.responseMessageTextView.visibility = View.VISIBLE
+        }
     }
 
     override fun getItemCount(): Int = chatBotData.size

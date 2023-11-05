@@ -59,6 +59,15 @@ class ChildChatBotActivity : AppCompatActivity() {
                 inputMethodManager.hideSoftInputFromWindow(binding.input.windowToken, 0)
                 if (input.isNotBlank()) {
                     baseUrl = resources.getString(R.string.api_ip_server)
+
+                    val chatBotDataPair = ChatBotDataPair(input, "")
+                    messages.add(chatBotDataPair)
+
+                    adapter.notifyDataSetChanged()
+                    scrollToBottom()
+
+                    saveChatHistory()
+
                     mobileToServer()
 
                     binding.input.text = null
@@ -111,7 +120,7 @@ class ChildChatBotActivity : AppCompatActivity() {
                     if (responseBody != null) {
                         val responseData = responseBody.bot
 
-                        val chatBotDataPair = ChatBotDataPair(input, responseData)
+                        val chatBotDataPair = ChatBotDataPair("", responseData)
                         messages.add(chatBotDataPair)
 
                         adapter.notifyDataSetChanged()

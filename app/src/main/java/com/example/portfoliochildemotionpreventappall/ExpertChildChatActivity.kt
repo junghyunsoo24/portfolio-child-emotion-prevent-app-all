@@ -18,6 +18,7 @@ import com.example.portfoliochildemotionpreventappall.adapter.ChildChatAdapter
 import com.example.portfoliochildemotionpreventappall.appViewModel.AppViewModel
 import com.example.portfoliochildemotionpreventappall.childChat.ChildChatDataPair
 import com.example.portfoliochildemotionpreventappall.databinding.ActivityChildExpertchatBinding
+import com.example.portfoliochildemotionpreventappall.expertChat.ExpertChatDataPair
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.socket.client.IO
@@ -73,7 +74,7 @@ class ExpertChildChatActivity : AppCompatActivity() {
                 val senderID = args[1] as String
                 if (senderID != id) {
                     runOnUiThread {
-                        val messagePair = ChildChatDataPair(input, roomMessage)
+                        val messagePair = ChildChatDataPair("", roomMessage)
                         messages.add(messagePair)
 
                         adapter.notifyDataSetChanged()
@@ -90,6 +91,13 @@ class ExpertChildChatActivity : AppCompatActivity() {
                     inputMethodManager.hideSoftInputFromWindow(binding.input.windowToken, 0)
                     if (input.isNotBlank()) {
                         val message = input
+                        val messagePair = ChildChatDataPair(input, "")
+                        messages.add(messagePair)
+
+                        adapter.notifyDataSetChanged()
+                        saveChildChatHistory()
+                        scrollToBottom()
+
                         //(2) 채팅을 서버로부터 전송
                         val dataToJson2 = roomName?.let {
                             ChildExpertChatActivity.SocketData(
@@ -110,7 +118,7 @@ class ExpertChildChatActivity : AppCompatActivity() {
                         }
                         mSocket.emit("chatMessage", jsonObject2)
 
-                        showAlertDialog(message)
+//                        showAlertDialog(message)
 
                         binding.input.text = null
 

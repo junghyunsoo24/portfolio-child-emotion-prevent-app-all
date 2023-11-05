@@ -75,7 +75,7 @@ class ChildExpertChatActivity : AppCompatActivity() {
 
                 if (senderID != id) {
                     runOnUiThread {
-                        val messagePair = ExpertChatDataPair(input, roomMessage)
+                        val messagePair = ExpertChatDataPair("", roomMessage)
                         messages.add(messagePair)
 
                         adapter.notifyDataSetChanged()
@@ -92,6 +92,14 @@ class ChildExpertChatActivity : AppCompatActivity() {
                     inputMethodManager.hideSoftInputFromWindow(binding.input.windowToken, 0)
                     if (input.isNotBlank()) {
                         val message = input
+
+                        val messagePair = ExpertChatDataPair(input, "")
+                        messages.add(messagePair)
+
+                        adapter.notifyDataSetChanged()
+                        saveExpertChatHistory()
+                        scrollToBottom()
+
                         //(2) 채팅을 서버로부터 전송
                         val dataToJson2 = roomName?.let{ SocketData(message, it, id) }
                         val jsonObject2 = JSONObject()
@@ -106,7 +114,7 @@ class ChildExpertChatActivity : AppCompatActivity() {
                         }
                         mSocket.emit("chatMessage", jsonObject2)
 
-                        showAlertDialog(message)
+//                        showAlertDialog(message)
 
                         binding.input.text = null
                     }
